@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{b97e8162-3ba8-470b-b397-158bddfc527c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="scriptNitro.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="keyboard.h" />
+    <ClInclude Include="..\..\inc\enums.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\main.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\nativeCaller.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\natives.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\types.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="scriptNitro.h" />
+    <ClInclude Include="..\..\inc\menu.h" />
+  </ItemGroup>
+</Project>
