@@ -281,7 +281,7 @@ void update_features() {
 // VARIABLES
 // READING KEY FROM nitroMod.ini FILE
 LPCSTR versao = "2.0";
-LPCSTR build = "121120171204";
+LPCSTR build = "202112121124";//"121120171204";
 LPCSTR arquivo = "nitroMod.ini";
 LPCSTR path = ".\\nitroMod.ini";
 LPCSTR arquivoDev = "nitroMod.dev";
@@ -318,6 +318,7 @@ bool proximaAtivacaoManual = false;
 bool estaNaContramao = false;
 bool velocidadeAcimaBonus = false;
 bool podeMudarVelocidade = false;
+bool bonus = true;
 
 float maxNitro = 100.0; // 100.0
 float valorNitro = maxNitro;
@@ -499,6 +500,15 @@ void verificaArquivo() {
 				selecionouTeclaArquivo = true;
 			}
 
+			char bonusChar[32];
+			GetPrivateProfileString(_T("CONFIGURATION"), _T("bonus"), _T(""), _T(bonusChar), 32, path);
+
+			if (strcmp(_T(bonusChar), "1") == 0) {
+				bonus = true;
+			} else {
+				bonus = false;
+			}
+
 			char infiniteNitro[32];
 			GetPrivateProfileString(_T("CONFIGURATION"), _T("infiniteNitro"), _T(""), _T(infiniteNitro), 32, path);
 
@@ -665,19 +675,19 @@ void mostraNitro() {
 
 	float tamanhoBarraHeight = 2.5;
 	float tamanhoBarraBackground = 0.0; //(showNumberNitroBar && !estaNaContramao) ? 12.0 : 5.5;
-	if(estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro-1) {
+	if(estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro-1 && bonus) {
 		if(showNumberNitroBar) {
 			tamanhoBarraBackground = 30.0;
 		} else {
 			tamanhoBarraBackground = 20.0;
 		}
-	} else if(estaNaContramao && !velocidadeAcimaBonus && valorNitro < maxNitro - 1) {
+	} else if(estaNaContramao && !velocidadeAcimaBonus && valorNitro < maxNitro - 1 && bonus) {
 		if(showNumberNitroBar) {
 			tamanhoBarraBackground = 20.0;
 		} else {
 			tamanhoBarraBackground = 12.0;
 		}
-	} else if(!estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1) {
+	} else if(!estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1 && bonus) {
 		if(showNumberNitroBar) {
 			tamanhoBarraBackground = 20.0;
 		} else {
@@ -718,17 +728,17 @@ void mostraNitro() {
 					draw_menu_lineNitro(valorNitroAtualChar, 0.0, tamanhoBarraHeight, posX + 8.0f, posY - 9.5f, 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
 					//draw_menu_lineNitro(valorNitroAtualChar, 0.0, tamanhoBarraHeight, posX + 8.0f, ((posY + (maxNitro / 2)) - (maxNitro / 2)), 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
 				}
-				if(estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1) {
+				if(estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1 && bonus) {
 					char textoEstaNaContramao[255];
-					sprintf_s(textoEstaNaContramao, "~r~WRONG WAY ~y~BONUS~w~\n~g~Speed ~y~BONUS~w~");
+					sprintf_s(textoEstaNaContramao, "~r~WRONG WAY ~y~BONUS~w~!\n~g~SPEED ~y~BONUS~w~!");
 					float posXFinal = (showNumberNitroBar) ? posX + 22.0f : posX + 8.0f;
 					draw_menu_lineNitro(textoEstaNaContramao, 0.0, tamanhoBarraHeight, posXFinal, posY + 6.0f, 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
-				} else if(estaNaContramao && !velocidadeAcimaBonus && valorNitro < maxNitro - 1) {
+				} else if(estaNaContramao && !velocidadeAcimaBonus && valorNitro < maxNitro - 1 && bonus) {
 					char textoEstaNaContramao[255];
 					sprintf_s(textoEstaNaContramao, "~r~WRONG WAY ~y~BONUS~w~!");
 					float posXFinal = (showNumberNitroBar) ? posX + 22.0f : posX + 8.0f;
 					draw_menu_lineNitro(textoEstaNaContramao, 0.0, tamanhoBarraHeight, posXFinal, posY + 6.0f, 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
-				} else if(!estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1) {
+				} else if(!estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1 && bonus) {
 					char textoEstaNaContramao[255];
 					sprintf_s(textoEstaNaContramao, "~g~SPEED ~y~BONUS~w~!");
 					float posXFinal = (showNumberNitroBar) ? posX + 22.0f : posX + 8.0f;
@@ -757,17 +767,17 @@ void mostraNitro() {
 				draw_menu_lineNitro(valorNitroAtualChar, 0.0, tamanhoBarraHeight, posX + 8.0f, posY - 9.5f, 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
 				//draw_menu_lineNitro(valorNitroAtualChar, 0.0, tamanhoBarraHeight, posX + 8.0f, ((posY + (maxNitro / 2)) - (maxNitro/2)), 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
 			}
-			if(estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro-1) {
+			if(estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro-1 && bonus) {
 				char textoEstaNaContramao[255];
-				sprintf_s(textoEstaNaContramao, "~r~WRONG WAY ~y~BONUS~w~\n~g~SPEED ~y~BONUS~w~");
+				sprintf_s(textoEstaNaContramao, "~r~WRONG WAY ~y~BONUS~w~!\n~g~SPEED ~y~BONUS~w~!");
 				float posXFinal = (showNumberNitroBar) ? posX + 22.0f : posX + 8.0f;
 				draw_menu_lineNitro(textoEstaNaContramao, 0.0, tamanhoBarraHeight, posXFinal, posY + 6.0f, 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
-			} else if(estaNaContramao && !velocidadeAcimaBonus && valorNitro < maxNitro - 1) {
+			} else if(estaNaContramao && !velocidadeAcimaBonus && valorNitro < maxNitro - 1 && bonus) {
 				char textoEstaNaContramao[255];
 				sprintf_s(textoEstaNaContramao, "~r~WRONG WAY ~y~BONUS~w~!");
 				float posXFinal = (showNumberNitroBar) ? posX + 22.0f : posX + 8.0f;
 				draw_menu_lineNitro(textoEstaNaContramao, 0.0, tamanhoBarraHeight, posXFinal, posY + 6.0f, 1.0, true, false, 255, 255, 255, 255, 4, 0.40, true, true);
-			} else if(!estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1) {
+			} else if(!estaNaContramao && velocidadeAcimaBonus && valorNitro < maxNitro - 1 && bonus) {
 				char textoEstaNaContramao[255];
 				sprintf_s(textoEstaNaContramao, "~g~SPEED ~y~BONUS~w~!");
 				float posXFinal = (showNumberNitroBar) ? posX + 22.0f : posX + 8.0f;
@@ -846,7 +856,6 @@ void executaNitro() {
 				Vector3 offset = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(carroPlayer, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(carroPlayer, escapamentos[i]));
 				GRAPHICS::_SET_PTFX_ASSET_NEXT_CALL("scr_carsteal4");
 				GRAPHICS::START_PARTICLE_FX_NON_LOOPED_AT_COORD("scr_carsteal5_car_muzzle_flash", offset.x, offset.y, offset.z, 0.0f, pitch, direction - 90.0f, flameMultiplier, false, false, false);
-				//GRAPHICS::START_PARTICLE_FX_LOOPED_AT_COORD("scr_carsteal5_car_muzzle_flash", offset.x, offset.y, offset.z, 0.0f, pitch, direction - 90.0f, flameMultiplier, false, false, false, 0);
 			}			
 		} else {
 			STREAMING::REQUEST_NAMED_PTFX_ASSET("scr_carsteal4");
@@ -1056,7 +1065,7 @@ void novaVelocidade() {
 void abreMenuConfigs() {
 	//if(scriptStarted) {
 		const float lineWidth = 250.0;
-		const int lineCount = 8;
+		const int lineCount = 9;
 
 		std::string caption = "     " + nomeMod + " v." + versao;
 
@@ -1068,7 +1077,8 @@ void abreMenuConfigs() {
 			"Show Nitro Value",
 			"Shake Joystick",
 			"All Vehicles",
-			"Speed Limit"
+			"Speed Limit",
+			"Bonus Points"
 		};
 
 		DWORD waitTime = 150;
@@ -1080,11 +1090,12 @@ void abreMenuConfigs() {
 			(showNumberNitroBar) ? lineCaption[4] = "Show Nitro Value      < ON >" : lineCaption[4] = "Show Nitro Value      < OFF >";
 			(shakeJoystick) ? lineCaption[5] = "Shake Joystick         < ON >" : lineCaption[5] = "Shake Joystick         < OFF >";
 			(allVehicles) ? lineCaption[6] = "All Vehicles               < ON >" : lineCaption[6] = "All Vehicles               < OFF >";
+			(bonus) ? lineCaption[7] = "Bonus Points             < ON >" : lineCaption[7] = "Bonus Points             < OFF >";
 
 			char textoMaxVel[256];
 			sprintf_s(textoMaxVel, "Speed Limit           %6.0fkm/h ", maxVel);
 
-			lineCaption[7] = textoMaxVel;
+			lineCaption[8] = textoMaxVel;
 
 			CONTROLS::DISABLE_CONTROL_ACTION(2, 27, true);
 
@@ -1190,6 +1201,18 @@ void abreMenuConfigs() {
 						}
 						break;
 					case 7:
+						if (bonus) {
+							bonus = false;
+							sprintf_s(texto, "0");
+							WritePrivateProfileString(_T("CONFIGURATION"), _T("bonus"), _T(texto), path);
+						}
+						else {
+							bonus = true;
+							sprintf_s(texto, "1");
+							WritePrivateProfileString(_T("CONFIGURATION"), _T("bonus"), _T(texto), path);
+						}
+						break;
+					case 8:
 						podeMudarVelocidade = true;						
 
 						novaVelocidade();
@@ -1290,9 +1313,9 @@ void abreMenu() {
 					abreMenuConfigs();
 					break;
 				case 3:
-					set_status_text("DEVELOPED BY ~o~PHK", 5500, false, 7, 1.5, 255, 255, 255, 255, 0.5, 0.5);
+					set_status_text("DEVELOPED BY ~o~PHK", 5500, false, 7, 1.5, 255, 255, 255, 255, 0.5, 0.75);
 					char t[255];
-					sprintf_s(t, "%s - VERSION: %s - BUILD DATE: %s", nomeMod, versao, build);
+					sprintf_s(t, "%s - VERSION: %s - BUILD: %s", nomeMod, versao, build);
 					bottomPrint(t, 5500);
 					break;
 				}
@@ -1409,11 +1432,11 @@ void main() {
 				estaNaContramao = false;
 			}
 
-			if(estaNaContramao && velocidadeAcimaBonus) {
+			if(estaNaContramao && velocidadeAcimaBonus && bonus) {
 				nitroPorCiclo = nitroPorCicloSomadoTodosBonus;
-			} else if(estaNaContramao && !velocidadeAcimaBonus) {
+			} else if(estaNaContramao && !velocidadeAcimaBonus && bonus) {
 				nitroPorCiclo = nitroPorCicloContraMao;
-			} else if(!estaNaContramao && velocidadeAcimaBonus) {
+			} else if(!estaNaContramao && velocidadeAcimaBonus && bonus) {
 				nitroPorCiclo = nitroPorCicloVelocidade;
 			} else {
 				nitroPorCiclo = nitroPorCicloPadrao;
@@ -1682,6 +1705,7 @@ void ScriptMain() {
 			sprintf_s(textoLog, "%s\n[INFO] [%s]: showNitroValue => '%d'", textoLog, dataHoraAtual(), showNumberNitroBar);
 			sprintf_s(textoLog, "%s\n[INFO] [%s]: shakeJoystick => '%d'", textoLog, dataHoraAtual(), shakeJoystick);
 			sprintf_s(textoLog, "%s\n[INFO] [%s]: flameMultiplier => '%3.1lf'", textoLog, dataHoraAtual(), flameMultiplier);
+			sprintf_s(textoLog, "%s\n[INFO] [%s]: bonus => '%d'", textoLog, dataHoraAtual(), bonus);
 		} else {
 			sprintf_s(textoLog, "%s\n[!!!!] [%s]: %s não encontrado (%s not found)", textoLog, dataHoraAtual(), arquivo, arquivo);
 		}
