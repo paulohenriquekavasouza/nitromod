@@ -11,7 +11,7 @@ I have many ideas I want to implement into this mod.
 ### PLANNED
 
 *2.1* - **_Forza Horizon-like inspired update_** - **Mid 2022**
-- More way to earn bonus nitro points: 
+- More ways to earn bonus nitro points: 
   - Almost hitting other vehicles;
   - Long jumps;
   - Skill system overall.
