@@ -84,6 +84,12 @@ LPCSTR teclasDisponiveis[22] = {
 	"NUMPAD9"
 };
 
+string textosVoo[3] = {
+	"VOO",
+	"VOO INCRIVEL",
+	"VOO EXTREMO"
+};
+
 void str_replace(char *target, const char *needle, const char *replacement) {
 	char buffer[1024] = {0};
 	char *insert_point = &buffer[0];
@@ -1369,9 +1375,47 @@ void main() {
 		salvaLog(textoLog);
 	}
 
+
+	int tempoNoAr = 0;
+	int numVoos = 0;
+	int timerResetaVoo = 150;
+	bool estaNoAr = false;
+
 	while(true) {
 		verificaArquivo();
 		nitroFunction();
+
+		timerResetaVoo -= 1;
+
+		if (timerResetaVoo == 0 && !estaNoAr) {
+			numVoos = 0;
+			timerResetaVoo = 150;
+		}
+
+		char t[64];
+		sprintf_s(t, "NO AR %d - VOOS %d", tempoNoAr, numVoos);
+		bottomPrint(t, 100);
+
+
+		if (ENTITY::IS_ENTITY_IN_AIR(veiculo)) {
+			tempoNoAr++;
+			if (tempoNoAr == 70) {
+				numVoos++;
+
+				char textoar[64];
+				string textoVoo = (numVoos < 3) ? textosVoo[numVoos] : textosVoo[2];
+				sprintf_s(textoar, "~y~%s", textoVoo);
+				set_status_text(textoar, 1000, false, 7, 0.5, 255, 255, 255, 255, 0.5, 0.5);
+
+				tempoNoAr = 0;
+			}
+			timerResetaVoo = 150;
+			estaNoAr = true;
+		}
+		else {
+			tempoNoAr = 0;
+			estaNoAr = false;
+		}
 		
 		playerPedId = PLAYER::PLAYER_PED_ID();
 		veiculo = PED::GET_VEHICLE_PED_IS_USING(playerPedId);
